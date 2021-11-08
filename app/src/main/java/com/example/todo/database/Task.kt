@@ -1,10 +1,14 @@
 package com.example.todo.database
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
-
-data class Task(val id: UUID = UUID.randomUUID(),
+@Entity
+data class Task(@PrimaryKey val id: UUID = UUID.randomUUID(),
                 var title: String = "",
-                var date: Date = Date(),
+                var taskDate: Date = Date(),
+                var createDate: Date = Date(),
                 var description: String = "",
-                var isCompleted: Boolean = false
-)
+                var isCompleted: Boolean = false,
+
+                )
