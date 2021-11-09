@@ -1,11 +1,8 @@
 package com.example.todo.ToDoFragment
 
-import android.app.DatePickerDialog
-
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +13,9 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.todo.DatePickerFragment
 import com.example.todo.R
-import com.example.todo.ToDoListFragment.KEY_ID
+import com.example.todo.ToDoListFragment.ToDoListFragment
 import com.example.todo.database.Task
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 const val DATE_KEY = "taskDate"
@@ -31,6 +27,8 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     private lateinit var descriptionEt: EditText
     private lateinit var taskDateBtn:Button
     private lateinit var creationDateTv: TextView
+    private lateinit var isCompletedTv : TextView
+    private lateinit var addNewTask: Button
 
     private lateinit var task: Task
 
@@ -50,6 +48,9 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
         descriptionEt = view.findViewById(R.id.todo_description_edit_text)
         taskDateBtn = view.findViewById(R.id.task_date_btn)
         creationDateTv = view.findViewById(R.id.creation_date_tv)
+        isCompletedTv = view.findViewById(R.id.is_completed_tv)
+        addNewTask = view.findViewById(R.id.add_task)
+
 
 
 
@@ -57,59 +58,61 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
         creationDateTv.text = DateFormat.getDateInstance().format(task.createDate)
 
         creationDateTv.setOnClickListener {
-            dateCompare()
+
         }
+
+
 
 
         return view
 
     }
 
-    fun dateCompare(){
-
-//        val format = "MMM d, yyyy"
-
-//        val s = SimpleDateFormat("MMM d, yyyy")
+//    fun dateCompare(){
 //
-//        val c = DateFormat.getDateInstance().format("MMM d, yyyy")
-
-
-        val dateCompare = when{
-            task.taskDate.after(task.createDate) -> ""
-            task.taskDate.before(task.createDate) ->""
-            else -> ""
-
-
-
-
-        }
-
-
-       if (task.taskDate.after(task.createDate) && !task.isCompleted){
-
-
-
-            Log.d("dateCompare", "task > creation")
-
-
-        }else if (task.taskDate.before(task.createDate)){
-
-            Log.d("dateCompare", "task < creation")
-
-        }else if (task.taskDate.equals(task.createDate)){
-
-            Log.d("dateCompare", "task == creation")
-
-        }
-
-
-
-
-
-
-
-    }
-
+////        val format = "MMM d, yyyy"
+//
+////        val s = SimpleDateFormat("MMM d, yyyy")
+////
+////        val c = DateFormat.getDateInstance().format("MMM d, yyyy")
+//
+//
+//        val dateCompare = when{
+//            task.taskDate.after(task.createDate) -> ""
+//            task.taskDate.before(task.createDate) ->""
+//            else -> ""
+//
+//
+//
+//
+//        }
+//
+//
+//       if (task.taskDate.after(task.createDate) && !task.isCompleted){
+//
+//
+//
+//            Log.d("dateCompare", "task > creation")
+//
+//
+//        }else if (task.taskDate.before(task.createDate)){
+//
+//            Log.d("dateCompare", "task < creation")
+//
+//        }else if (task.taskDate.equals(task.createDate)){
+//
+//            Log.d("dateCompare", "task == creation")
+//
+//        }
+//
+//
+//
+//
+//
+//
+//
+//    }
+//
 
 
 
@@ -128,6 +131,27 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
             datePicker.arguments = args
             datePicker.setTargetFragment(this,0)
             datePicker.show(this.parentFragmentManager,"date")
+
+        }
+
+
+        addNewTask.setOnClickListener {
+            val task = Task()
+
+            toDoViewModel.addTask(task)
+
+
+
+            val fragment = ToDoListFragment()
+
+
+            activity?.let {
+                it.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container,fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
 
         }
 
@@ -182,10 +206,10 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
         super.onCreate(savedInstanceState)
 
         task = Task()
-
-        val taskId = arguments?.getSerializable(KEY_ID) as UUID
-
-        toDoViewModel.loadTask(taskId)
+//
+//        val taskId = arguments?.getSerializable(KEY_ID) as UUID
+//
+//        toDoViewModel.loadTask(taskId)
 
     }
 
@@ -201,6 +225,9 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
                     descriptionEt.setText(it.description)
                     taskDateBtn.text = DateFormat.getDateInstance().format(it.taskDate)
                     creationDateTv.text = DateFormat.getDateInstance().format(it.createDate)
+                    //add completed task
+                    isCompletedTv.text = it.isCompleted.toString()
+
 
 
                 }
@@ -212,15 +239,19 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
 
     override fun onDateSelected(date: Date) {
         task.taskDate = date
-        taskDateBtn.text = DateFormat.getDateInstance().format(task.taskDate)
+        taskDateBtn.text = task.taskDate.toString()
 
     }
 
 
     override fun onStop() {
         super.onStop()
+        if (task.title.isEmpty()){
 
-        toDoViewModel.updateTask(task)
+            toDoViewModel.deleteTask(task)
+        }else {
+            toDoViewModel.updateTask(task)
+        }
     }
 
 

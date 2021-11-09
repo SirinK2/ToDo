@@ -6,4 +6,8 @@
     <string name="todo_description_hint">Enter Description</string>
     <string name="task_title">Task Title</string>
     <string name="task_description">Task Description</string>
+    <string name="dialog_massage"> The title should not be empty</string>
+    <string name="ok">OK</string>
+    <string name="cancel"> Cancel</string>
+    <string name="add_task_btn">Add task</string>
 </resources>

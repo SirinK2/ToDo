@@ -10,12 +10,14 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todo.R
 import com.example.todo.ToDoFragment.ToDoFragment
 import com.example.todo.database.Task
 import java.text.DateFormat
+import java.util.*
 
 const val KEY_ID = "task id"
 class ToDoListFragment : Fragment() {
@@ -37,36 +39,25 @@ class ToDoListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
+
+
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.newtask -> {
-                val task = Task()
 
-                toDoListViewModel.addTask(task)
+                    val fragment = ToDoFragment()
 
-                val args = Bundle()
-                args.putSerializable(KEY_ID,task.id)
+                    activity?.let {
+                        it.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .addToBackStack(null)
+                            .commit()
 
-                val fragment = ToDoFragment()
-                fragment.arguments = args
-
-                activity?.let {
-                    it.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.fragment_container,fragment)
-                        .addToBackStack(null)
-                        .commit()
-
-                }
-
-
-
-
-
-
+                    }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -91,22 +82,45 @@ class ToDoListFragment : Fragment() {
 
         toDoRv.layoutManager = linearLayoutManager
 
-        //adaptor
-
-
-
 
         return view
     }
 
+
+    var tasks = listOf<Task>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         toDoListViewModel.liveDataTasks.observe(
             viewLifecycleOwner, Observer {
                 updateUI(it)
+                tasks = it
             }
         )
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+                val task = tasks[viewHolder.adapterPosition]
+                toDoListViewModel.deleteTask(task)
+
+
+
+
+            }
+
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(toDoRv)
     }
 
 
@@ -125,27 +139,24 @@ class ToDoListFragment : Fragment() {
     private inner class ToDoViewHolder(view:View): RecyclerView.ViewHolder(view), View.OnClickListener{
 
 
-        private lateinit var task : Task
-        private val isCompletedCbItemView : CheckBox = itemView.findViewById(R.id.completed_cb)
+        lateinit var task : Task
+         val isCompletedCbItemView : CheckBox = itemView.findViewById(R.id.completed_cb)
         private val titleItemView: TextView = itemView.findViewById(R.id.title_itemview)
         private val dateItemView: TextView = itemView.findViewById(R.id.date_itemview)
-        private val taskCountDown: TextView = itemView.findViewById(R.id.task_countdown_itemview)
+//        private val taskCountDown: TextView = itemView.findViewById(R.id.task_countdown_itemview)
 
         init {
             itemView.setOnClickListener(this)
         }
 
-       // @SuppressLint("ResourceAsColor")
         fun bind(task: Task) {
             this.task = task
 
             titleItemView.text = task.title
-            dateItemView.text = DateFormat.getDateInstance().format(task.taskDate)
+            dateItemView.text = task.taskDate.toString()
             isCompletedCbItemView.setOnCheckedChangeListener { _, isChecked ->
                 task.isCompleted = isChecked
-//                if (task.isCompleted){
-//                    itemView.setBackgroundColor(resources.getColor(R.color.teal_700))
-//                }
+
             }
 
 
@@ -157,39 +168,35 @@ class ToDoListFragment : Fragment() {
 
         }
 
-//        private fun updateDay(){
-//            val diff = task.taskDate.time - task.createDate.time
-//            diff/24
-//            Log.d("","")
-//        }
-
-        fun dateCompare(){
 
 
-
-            if (task.taskDate.after(task.createDate) && !task.isCompleted){
-
-
-                itemView.setBackgroundColor(resources.getColor(R.color.teal_700))
-
-
-
-                Log.d("dateCompare", "task > creation")
-
-
-            }else if(task.taskDate.after(task.createDate) && task.isCompleted) {
-                itemView.setBackgroundColor(resources.getColor(R.color.purple_700))
-
-            }else if (task.taskDate.before(task.createDate)){
-
-                Log.d("dateCompare", "task < creation")
-
-            }else if (task.taskDate.equals(task.createDate)){
-
-                Log.d("dateCompare", "task == creation")
-
-            }
-            }
+//        fun dateCompare(){
+//
+//
+//
+//            if (task.taskDate.after(task.createDate) && !task.isCompleted){
+//
+//
+//                itemView.setBackgroundColor(resources.getColor(R.color.teal_700))
+//
+//
+//
+//                Log.d("dateCompare", "task > creation")
+//
+//
+//            }else if(task.taskDate.after(task.createDate) && task.isCompleted) {
+//                itemView.setBackgroundColor(resources.getColor(R.color.purple_700))
+//
+//            }else if (task.taskDate.before(task.createDate)){
+//
+//                Log.d("dateCompare", "task < creation")
+//
+//            }else if (task.taskDate.equals(task.createDate)){
+//
+//                Log.d("dateCompare", "task == creation")
+//
+//            }
+//            }
 
 
 
@@ -219,14 +226,11 @@ class ToDoListFragment : Fragment() {
 
                 }
 
-
-
-
-
-
-
-
             }
+
+
+
+
 
         }
 
