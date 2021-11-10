@@ -1,6 +1,7 @@
 package com.example.todo.ToDoListFragment
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import com.example.todo.R
 import com.example.todo.ToDoFragment.ToDoFragment
 import com.example.todo.database.Task
 import android.text.format.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 const val KEY_ID = "task id"
@@ -148,31 +150,54 @@ class ToDoListFragment : Fragment() {
         }
 
 
+        @SuppressLint("SimpleDateFormat")
         fun bind(task: Task) {
             this.task = task
 
             titleItemView.text = task.title
-            dateItemView.text = DateFormat.format(dateFormat,task.taskDate)
+            if (task.taskDate != null) {
+                dateItemView.text = DateFormat.format(dateFormat, task.taskDate)
+            }
             isCompletedCbItemView.setOnCheckedChangeListener { _, isChecked ->
                 task.isCompleted = isChecked
 
 
             }
 
-            val creationDate = Calendar.getInstance()
-            creationDate.time = task.createDate
+//            val creationDate = Calendar.getInstance()
+//            creationDate.time = task.createDate
 
-            val dueDate = Calendar.getInstance()
-            task.taskDate?.let {
-                dueDate.time = it
+
+            //            val dueDate = task.taskDate?.let {
+//                sdf.parse(sdf.format(it))
+//            }
+//            task.taskDate?.let {
+//
+//            }
+
+            var date1 = Date()
+
+            val sdf = SimpleDateFormat("MMM dd, yyyy")
+             date1?.let {
+                 sdf.parse(sdf.format(it)) as Date
+             }
+
+            var date2 = task.taskDate
+            date2?.let {
+                sdf.parse(sdf.format(it)) as Date
             }
-            val diff = dueDate.timeInMillis  - creationDate.timeInMillis
 
-            val days = diff / (24 * 60 * 60 * 1000)
-            val day = "$days day"
+
+            val diff = (date2?.time ?: 0) - date1.time
+
+            val days = diff / (24)
+
+            val dayFormat = days / (60 * 60 * 1000)
+
+            val day = "$dayFormat day"
             taskCountDown.text = day
 
-            if(days.toInt() == 0){
+            if(days.toInt() <= 0){
                 isCompletedCbItemView.isEnabled = false
 
 

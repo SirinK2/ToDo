@@ -171,7 +171,9 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
                     task = it
                     titleEt.setText(it.title)
                     descriptionEt.setText(it.description)
-                    taskDateBtn.text = DateFormat.format(dateFormat,it.taskDate)
+                    if (task.taskDate != null) {
+                        taskDateBtn.text = DateFormat.format(dateFormat, it.taskDate)
+                    }
                     creationDateTv.text = DateFormat.format(dateFormat,task.createDate)
                     //add completed task
 //                    isCompletedTv.text = it.isCompleted.toString()
