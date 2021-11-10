@@ -16,15 +16,17 @@
         android:layout_marginStart="72dp"
         android:layout_marginTop="48dp"
         android:text="@string/task_title"
+        android:textColor="#050505"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/todo_title_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="271dp"
+        android:layout_height="48dp"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="@string/todo_title_hint"
         android:minHeight="48dp"
@@ -39,6 +41,8 @@
         android:layout_marginStart="72dp"
         android:layout_marginTop="36dp"
         android:text="@string/task_description"
+        android:textColor="#090909"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/todo_title_edit_text" />
 
@@ -47,7 +51,7 @@
         android:layout_width="271dp"
         android:layout_height="48dp"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="@string/todo_description_hint"
         android:minHeight="48dp"
@@ -56,13 +60,13 @@
 
     <Button
         android:id="@+id/task_date_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
+        android:layout_width="207dp"
+        android:layout_height="48dp"
         android:layout_marginTop="340dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="task date" />
+        android:text="@string/task_date" />
 
     <TextView
         android:id="@+id/creation_date_tv"
@@ -86,10 +90,10 @@
 
     <Button
         android:id="@+id/add_task"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginBottom="236dp"
+        android:layout_width="111dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="268dp"
+        android:layout_marginBottom="48dp"
         android:text="@string/add_task_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

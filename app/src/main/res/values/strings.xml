@@ -10,4 +10,5 @@
     <string name="ok">OK</string>
     <string name="cancel"> Cancel</string>
     <string name="add_task_btn">Add task</string>
+    <string name="task_date">task date</string>
 </resources>
