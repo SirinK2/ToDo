@@ -1,6 +1,16 @@
 package com.example.todo.ToDoFragment
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
@@ -17,23 +27,61 @@ import com.example.todo.ToDoListFragment.KEY_ID
 import com.example.todo.ToDoListFragment.ToDoListFragment
 import com.example.todo.database.Task
 import android.text.format.DateFormat
+import android.widget.ImageView
+import androidx.core.content.FileProvider
+import com.example.todo.getScaledBitmap
+import java.io.File
 import java.util.*
-
+const val REQUEST_CODE = 9
 const val DATE_KEY = "taskDate"
+private const val REQUEST_PHOTO = 2
 class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     val dateFormat = "MMM dd, yyyy"
-    private lateinit var titleTv: TextView
+
     private lateinit var titleEt : EditText
-    private lateinit var descriptionTv : TextView
     private lateinit var descriptionEt: EditText
     private lateinit var taskDateBtn:Button
     private lateinit var creationDateTv: TextView
     private lateinit var isCompletedTv : TextView
     private lateinit var addNewTask: Button
+    private var imgView : ImageView? = null
+    private lateinit var imgBtn : Button
+
 
     private lateinit var task: Task
+    private lateinit var photoFile: File
+    private lateinit var photoUri: Uri
+
+    private fun updatePhotoView(){
+        if (photoFile.exists()){
+            val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+            imgView?.setImageBitmap(bitmap)
+
+        }else{
+            imgView?.setImageDrawable(null)
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        requireActivity().revokeUriPermission(photoUri,Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode != Activity.RESULT_OK) { return }
+
+        if (requestCode == REQUEST_PHOTO) {
+            requireActivity().revokeUriPermission(photoUri,Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            updatePhotoView()
+        }
+
+
+
+    }
 
     private val toDoViewModel by lazy { ViewModelProvider(this).get(ToDoViewModel::class.java) }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,14 +89,15 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     ): View? {
        val view =  inflater.inflate(R.layout.fragment_to_do, container, false)
 
-        titleTv = view.findViewById(R.id.todo_title_tv)
+
         titleEt = view.findViewById(R.id.todo_title_edit_text)
-        descriptionTv = view.findViewById(R.id.todo_description_tv)
         descriptionEt = view.findViewById(R.id.todo_description_edit_text)
         taskDateBtn = view.findViewById(R.id.task_date_btn)
         creationDateTv = view.findViewById(R.id.creation_date_tv)
         isCompletedTv = view.findViewById(R.id.is_completed_tv)
         addNewTask = view.findViewById(R.id.add_task)
+        imgView= view.findViewById(R.id.task_image_view)
+        imgBtn = view.findViewById(R.id.img_btn)
 
         creationDateTv.text = DateFormat.format(dateFormat,task.createDate)
 
@@ -63,9 +112,33 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
 
 
 
-
+    @SuppressLint("QueryPermissionsNeeded")
     override fun onStart() {
         super.onStart()
+
+//
+        imgBtn.apply {
+            val packageManager: PackageManager = requireActivity().packageManager
+            val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val resolvedActivity: ResolveInfo? =
+                packageManager.resolveActivity(captureImage,PackageManager.MATCH_DEFAULT_ONLY)
+            if (resolvedActivity == null){
+                isEnabled = false
+            }
+            setOnClickListener {
+                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                val cameraActivities: List<ResolveInfo> =
+                    packageManager.queryIntentActivities(captureImage,PackageManager.MATCH_DEFAULT_ONLY)
+
+                for (cameraActivity in cameraActivities){
+                    requireActivity().grantUriPermission(cameraActivity.activityInfo.packageName,photoUri,Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                }
+                startActivityForResult(captureImage, REQUEST_PHOTO)
+            }
+        }
+
+
 
         taskDateBtn.setOnClickListener {
 
@@ -83,7 +156,7 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
         addNewTask.setOnClickListener {
 
 
-            toDoViewModel.addTask(task)
+                toDoViewModel.addTask(task)
 
 
 
@@ -165,6 +238,9 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        photoFile = toDoViewModel.getPhotoFile(task)
+        photoUri = FileProvider.getUriForFile(requireContext(), "com.example.todo", photoFile)
+
         toDoViewModel.taskLifeDate.observe(
             viewLifecycleOwner, androidx.lifecycle.Observer {
                 it?.let {
@@ -175,8 +251,12 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
                         taskDateBtn.text = DateFormat.format(dateFormat, it.taskDate)
                     }
                     creationDateTv.text = DateFormat.format(dateFormat,task.createDate)
+                    photoFile = toDoViewModel.getPhotoFile(task)
+                    photoUri = FileProvider.getUriForFile(requireContext(), "com.example.todo", photoFile)
                     //add completed task
 //                    isCompletedTv.text = it.isCompleted.toString()
+
+                    updatePhotoView()
 
 
 
@@ -188,16 +268,17 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     }
 
     override fun onDateSelected(date: Date) {
-        task.taskDate = date
-        taskDateBtn.text = task.taskDate.toString()
 
+        task.taskDate = date
+        if (task.taskDate != null) {
+            taskDateBtn.text = DateFormat.format(dateFormat, task.taskDate)
+        }
     }
 
 
     override fun onStop() {
         super.onStop()
         if (task.title.isEmpty()){
-
             toDoViewModel.deleteTask(task)
         }else {
             toDoViewModel.updateTask(task)

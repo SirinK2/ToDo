@@ -25,26 +25,4 @@ class ToDoListViewModel:ViewModel() {
     }
 
 
-
-
-
-
-//    var tasks = mutableListOf<Task>()
-//
-//    init {
-//
-//        for (i in 0..10){
-//            val task = Task()
-//            task.title = "title $i"
-//            tasks += task
-//
-//        }
-//
-//    }
-
-
-
-
-
-
 }

@@ -11,4 +11,7 @@ data class Task(@PrimaryKey val id: UUID = UUID.randomUUID(),
                 var description: String = "",
                 var isCompleted: Boolean = false,
 
-                )
+                ){
+    val photoFileName
+        get() = "IMG_$id.jpg"
+}

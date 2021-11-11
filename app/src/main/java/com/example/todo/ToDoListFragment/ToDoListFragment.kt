@@ -164,16 +164,7 @@ class ToDoListFragment : Fragment() {
 
             }
 
-//            val creationDate = Calendar.getInstance()
-//            creationDate.time = task.createDate
 
-
-            //            val dueDate = task.taskDate?.let {
-//                sdf.parse(sdf.format(it))
-//            }
-//            task.taskDate?.let {
-//
-//            }
 
             var date1 = Date()
 
@@ -188,7 +179,7 @@ class ToDoListFragment : Fragment() {
             }
 
 
-            val diff = (date2?.time ?: 0) - date1.time
+            val diff = (date2?.time ?: date1.time) - date1.time
 
             val days = diff / (24)
 
@@ -213,17 +204,17 @@ class ToDoListFragment : Fragment() {
 
 //            val dueDate = DateFormat.format(dateFormat,task.taskDate)
 //            val creationDate = DateFormat.format(dateFormat,task.createDate)
-
-            val creationDate = Calendar.getInstance()
-            creationDate.time = task.createDate
-
-            val dueDate = Calendar.getInstance()
-            task.taskDate?.let {
-                dueDate.time
-            }
-                val diff = dueDate.timeInMillis  - creationDate.timeInMillis
-
-                val days = diff / (24 * 60 * 60 * 1000)
+//
+//            val creationDate = Calendar.getInstance()
+//            creationDate.time = task.createDate
+//
+//            val dueDate = Calendar.getInstance()
+//            task.taskDate?.let {
+//                dueDate.time
+//            }
+//                val diff = dueDate.timeInMillis  - creationDate.timeInMillis
+//
+//                val days = diff / (24 * 60 * 60 * 1000)
 
 
 

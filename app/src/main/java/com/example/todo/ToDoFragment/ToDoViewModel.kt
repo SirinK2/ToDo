@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.todo.database.Task
 import com.example.todo.database.TaskRepo
+import java.io.File
 import java.util.*
 
 class ToDoViewModel:ViewModel() {
@@ -39,5 +40,9 @@ class ToDoViewModel:ViewModel() {
 
         taskRepo.deleteTask(task)
 
+    }
+
+    fun getPhotoFile(task: Task): File{
+        return taskRepo.getPhotoFile(task)
     }
 }
