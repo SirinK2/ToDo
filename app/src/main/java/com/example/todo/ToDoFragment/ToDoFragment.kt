@@ -53,6 +53,7 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     private lateinit var photoUri: Uri
 
     private fun updatePhotoView(){
+
         if (photoFile.exists()){
             val bitmap = getScaledBitmap(photoFile.path, requireActivity())
             imgView?.setImageBitmap(bitmap)
@@ -156,9 +157,7 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
         addNewTask.setOnClickListener {
 
 
-                toDoViewModel.addTask(task)
-
-
+            toDoViewModel.addTask(task)
 
             val fragment = ToDoListFragment()
 
@@ -228,7 +227,9 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
         val taskId = arguments?.getSerializable(KEY_ID) as UUID?
 
         taskId?.let {
+
             toDoViewModel.loadTask(it)
+
         }
 
 
@@ -247,14 +248,18 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
                     task = it
                     titleEt.setText(it.title)
                     descriptionEt.setText(it.description)
+
                     if (task.taskDate != null) {
+
                         taskDateBtn.text = DateFormat.format(dateFormat, it.taskDate)
+
                     }
                     creationDateTv.text = DateFormat.format(dateFormat,task.createDate)
                     photoFile = toDoViewModel.getPhotoFile(task)
                     photoUri = FileProvider.getUriForFile(requireContext(), "com.example.todo", photoFile)
+
                     //add completed task
-//                    isCompletedTv.text = it.isCompleted.toString()
+
 
                     updatePhotoView()
 
@@ -270,7 +275,9 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     override fun onDateSelected(date: Date) {
 
         task.taskDate = date
+
         if (task.taskDate != null) {
+
             taskDateBtn.text = DateFormat.format(dateFormat, task.taskDate)
         }
     }
@@ -278,10 +285,15 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
 
     override fun onStop() {
         super.onStop()
+
         if (task.title.isEmpty()){
+
             toDoViewModel.deleteTask(task)
+
         }else {
+
             toDoViewModel.updateTask(task)
+
         }
     }
 

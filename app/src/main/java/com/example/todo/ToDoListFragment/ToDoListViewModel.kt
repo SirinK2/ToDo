@@ -24,5 +24,9 @@ class ToDoListViewModel:ViewModel() {
 
     }
 
+    fun updateTask(task: Task){
+        taskRepo.updateTask(task)
+    }
+
 
 }

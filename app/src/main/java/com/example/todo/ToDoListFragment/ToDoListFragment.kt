@@ -16,6 +16,9 @@ import com.example.todo.R
 import com.example.todo.ToDoFragment.ToDoFragment
 import com.example.todo.database.Task
 import android.text.format.DateFormat
+import android.widget.ImageView
+import com.example.todo.ToDoBottomSheetFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,6 +26,7 @@ const val KEY_ID = "task id"
 class ToDoListFragment : Fragment() {
 
     private lateinit var toDoRv : RecyclerView
+    private lateinit var toDoBottomSheetFragment: BottomSheetDialogFragment
 
 
 
@@ -37,8 +41,8 @@ class ToDoListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
+        setHasOptionsMenu(true)
 
 
     }
@@ -93,25 +97,29 @@ class ToDoListFragment : Fragment() {
 
         toDoListViewModel.liveDataTasks.observe(
             viewLifecycleOwner, Observer {
+
+
                 updateUI(it)
+
+
                 tasks = it
             }
         )
 
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT){
+
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
+            ): Boolean { return false }
+
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
                 val task = tasks[viewHolder.adapterPosition]
-                toDoListViewModel.deleteTask(task)
 
+                toDoListViewModel.deleteTask(task)
 
 
 
@@ -120,6 +128,7 @@ class ToDoListFragment : Fragment() {
         }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+
         itemTouchHelper.attachToRecyclerView(toDoRv)
     }
 
@@ -128,6 +137,7 @@ class ToDoListFragment : Fragment() {
     private fun updateUI(task: List<Task>){
 
         val taskAdapter = ToDoAdapter(task)
+
         toDoRv.adapter = taskAdapter
 
     }
@@ -139,43 +149,60 @@ class ToDoListFragment : Fragment() {
     private inner class ToDoViewHolder(view:View): RecyclerView.ViewHolder(view), View.OnClickListener{
 
         val dateFormat = "MMM dd, yyyy"
+
         lateinit var task : Task
-        private val isCompletedCbItemView : CheckBox = itemView.findViewById(R.id.completed_cb)
+
+        private var isCompletedCbItemView : CheckBox = itemView.findViewById(R.id.completed_cb)
         private val titleItemView: TextView = itemView.findViewById(R.id.title_itemview)
         private val dateItemView: TextView = itemView.findViewById(R.id.date_itemview)
         private val taskCountDown: TextView = itemView.findViewById(R.id.task_countdown_itemview)
+        private val editImageView: ImageView = itemView.findViewById(R.id.edit_iv)
 
         init {
+
             itemView.setOnClickListener(this)
+            editImageView.setOnClickListener(this)
         }
 
 
         @SuppressLint("SimpleDateFormat")
         fun bind(task: Task) {
+
             this.task = task
 
+            isCompletedCbItemView.isChecked = task.isCompleted
+
             titleItemView.text = task.title
+
             if (task.taskDate != null) {
+
                 dateItemView.text = DateFormat.format(dateFormat, task.taskDate)
             }
+
+
             isCompletedCbItemView.setOnCheckedChangeListener { _, isChecked ->
+
+
                 task.isCompleted = isChecked
+                toDoListViewModel.updateTask(task)
+
+
+
 
 
             }
 
-
-
-            var date1 = Date()
+            val date1 = Date()
 
             val sdf = SimpleDateFormat("MMM dd, yyyy")
-             date1?.let {
-                 sdf.parse(sdf.format(it)) as Date
-             }
+                sdf.parse(sdf.format(date1))
 
-            var date2 = task.taskDate
+            val date2 = task.taskDate
+
             date2?.let {
+
                 sdf.parse(sdf.format(it)) as Date
+
             }
 
 
@@ -186,92 +213,21 @@ class ToDoListFragment : Fragment() {
             val dayFormat = days / (60 * 60 * 1000)
 
             val day = "$dayFormat day"
+
             taskCountDown.text = day
 
-            if(days.toInt() <= 0){
-                isCompletedCbItemView.isEnabled = false
+            if(days.toInt() <= 0 && !isCompletedCbItemView.isChecked){
 
+                isCompletedCbItemView.isEnabled = false
 
             }
 
         }
 
 
-
-
-
-        fun dateCompare(){
-
-//            val dueDate = DateFormat.format(dateFormat,task.taskDate)
-//            val creationDate = DateFormat.format(dateFormat,task.createDate)
-//
-//            val creationDate = Calendar.getInstance()
-//            creationDate.time = task.createDate
-//
-//            val dueDate = Calendar.getInstance()
-//            task.taskDate?.let {
-//                dueDate.time
-//            }
-//                val diff = dueDate.timeInMillis  - creationDate.timeInMillis
-//
-//                val days = diff / (24 * 60 * 60 * 1000)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//            val date1 = task.taskDate
-//            val date2 = task.createDate.toString()
-
-
-
-//            val date1 = SimpleDateFormat("yyyy-MM-dd")
-//            task.taskDate?.let {
-//                if (date1.before(it) && !task.isCompleted) {
-//                    itemView.setBackgroundColor(resources.getColor(R.color.teal_700))
-//                } else if (date1.before(task.createDate) && task.isCompleted) {
-//                    itemView.setBackgroundColor(resources.getColor(R.color.teal_200))
-////                }else if ()
-//                }
-//            }
-//            if (date1.after(date2) && !task.isCompleted){
-//
-//
-//
-//
-//
-//
-//                Log.d("dateCompare", "task > creation")
-//
-//
-//            }else if(task.taskDate.after(task.createDate) && task.isCompleted) {
-//                itemView.setBackgroundColor(resources.getColor(R.color.purple_700))
-//
-//            }else if (task.taskDate?.before(task.createDate) == true){
-//
-//                Log.d("dateCompare", "task < creation")
-//
-//            }else if (task.taskDate.equals(task.createDate)){
-//
-//                Log.d("dateCompare", "task == creation")
-//
-//            }
-            }
-
-
-
-
         override fun onClick(v: View?) {
-            if ( v == itemView){
+
+            if ( v == editImageView){
 
                 val args = Bundle()
                 args.putSerializable(KEY_ID,task.id)
@@ -280,6 +236,7 @@ class ToDoListFragment : Fragment() {
                 fragment.arguments = args
 
                 activity?.let { frag ->
+
                     frag.supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.fragment_container,fragment)
@@ -288,6 +245,23 @@ class ToDoListFragment : Fragment() {
 
 
                 }
+
+            }
+
+
+
+            if (v == itemView){
+
+                val args = Bundle()
+                args.putSerializable(KEY_ID,task.id)
+
+
+                toDoBottomSheetFragment = ToDoBottomSheetFragment()
+                toDoBottomSheetFragment.arguments = args
+
+
+                toDoBottomSheetFragment.show(parentFragmentManager,toDoBottomSheetFragment.tag)
+
 
             }
 
@@ -323,30 +297,5 @@ class ToDoListFragment : Fragment() {
     }
 
 
-
-
-
-
-
-
 }
 
-
-
-
-//        val format = "MMM d, yyyy"
-
-//        val s = SimpleDateFormat("MMM d, yyyy")
-//
-//        val c = DateFormat.getDateInstance().format("MMM d, yyyy")
-
-//
-//            val dateCompare = when{
-//                task.taskDate.after(task.createDate) -> ""
-//                task.taskDate.before(task.createDate) ->""
-//                else -> ""
-//
-//
-//
-//
-//            }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title_tv_botton_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/allerta"
+        android:text="Title "
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#050505"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/description_tv_bottom_sheet"
+        android:layout_width="283dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="92dp"
+        android:fontFamily="@font/allerta"
+        android:lineSpacingExtra="5sp"
+        android:text="TextView fkmvb  dflm ; b km bfskb ckgms;vm  skgvm skv v skvg nsv"
+        android:textAlignment="viewStart"
+        android:textColor="#0B0A0A"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/timer_btn_bottom_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="480dp"
+        android:text="@string/start_btn"
+        android:textColor="#040303"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/from_tv"
+        app:layout_constraintBottom_toTopOf="@+id/timer2_tv_bottom_sheet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_view_bottom_sheet" />
+
+    <TextView
+        android:id="@+id/timer1_tv_bottom_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="416dp"
+        android:layout_marginEnd="96dp"
+        android:fontFamily="sans-serif-black"
+        android:text="00:00"
+        android:textColor="#676363"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="396dp"
+        android:background="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/status_bar_item_app_background" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="132dp"
+        android:layout_marginBottom="13dp"
+        android:text="To"
+        app:layout_constraintBottom_toTopOf="@+id/timer1_tv_bottom_sheet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_view_bottom_sheet" />
+
+    <TextView
+        android:id="@+id/timer2_tv_bottom_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="416dp"
+        android:fontFamily="sans-serif-black"
+        android:text="00:00"
+        android:textColor="#676363"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_view_bottom_sheet"
+        android:layout_width="162dp"
+        android:layout_height="167dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_tv_bottom_sheet"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@tools:sample/avatars" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
