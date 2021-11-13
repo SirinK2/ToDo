@@ -34,7 +34,9 @@ class DatePickerFragment: DialogFragment() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+
             val resultDate = GregorianCalendar(year,month,dayOfMonth).time
+
             targetFragment?.let {
 
                 (it as DateCallBack).onDateSelected(resultDate)

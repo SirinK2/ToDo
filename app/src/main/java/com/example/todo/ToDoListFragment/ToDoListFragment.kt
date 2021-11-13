@@ -17,10 +17,15 @@ import com.example.todo.ToDoFragment.ToDoFragment
 import com.example.todo.database.Task
 import android.text.format.DateFormat
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
 import com.example.todo.ToDoBottomSheetFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.*
+import android.view.ViewGroup
+
+
+
 
 const val KEY_ID = "task id"
 class ToDoListFragment : Fragment() {
@@ -165,8 +170,11 @@ class ToDoListFragment : Fragment() {
         private val taskCountDown: TextView = itemView.findViewById(R.id.task_countdown_itemview)
         private val editImageView: ImageView = itemView.findViewById(R.id.edit_iv)
 
+
+
         init {
 
+            
             itemView.setOnClickListener(this)
             editImageView.setOnClickListener(this)
         }
@@ -223,7 +231,7 @@ class ToDoListFragment : Fragment() {
 
             taskCountDown.text = day
 
-            if(days.toInt() <= 0 ){
+            if(days.toInt() <= 0){
 
                 isCompletedCbItemView.isEnabled = false
 

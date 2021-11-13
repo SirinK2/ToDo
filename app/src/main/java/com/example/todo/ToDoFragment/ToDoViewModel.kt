@@ -32,12 +32,6 @@ class ToDoViewModel:ViewModel() {
     }
 
 
-    fun addTask(task: Task){
-
-        taskRepo.addTask(task)
-
-    }
-
     fun deleteTask(task: Task){
 
         taskRepo.deleteTask(task)
