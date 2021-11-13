@@ -3,15 +3,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="todo_title_hint">Enter Title</string>
-    <string name="todo_description_hint">Enter Description</string>
     <string name="task_title">Task Title</string>
     <string name="task_description">Task Description</string>
     <string name="dialog_massage"> The title should not be empty</string>
     <string name="ok">OK</string>
     <string name="cancel"> Cancel</string>
-    <string name="add_task_btn">Add task</string>
+    <string name="add_task_btn">Save</string>
     <string name="task_date">task date</string>
     <string name="done_btn">Done</string>
     <string name="from_tv">From</string>
     <string name="start_btn">Start</string>
+    <string name="enter_description">Enter description</string>
 </resources>

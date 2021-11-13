@@ -7,93 +7,149 @@
     android:layout_height="match_parent"
     tools:context=".ToDoFragment.ToDoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <EditText
-        android:id="@+id/todo_title_edit_text"
-        android:layout_width="271dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:hint="@string/todo_title_hint"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <EditText
-        android:id="@+id/todo_description_edit_text"
-        android:layout_width="271dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="108dp"
-        android:ems="10"
-        android:hint="@string/todo_description_hint"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/task_date_btn"
-        android:layout_width="207dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="216dp"
-        android:text="@string/task_date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/creation_date_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="180dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="creation date" />
-
-    <TextView
-        android:id="@+id/is_completed_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:layout_marginEnd="72dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/add_task"
-        android:layout_width="111dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="272dp"
-        android:layout_marginBottom="68dp"
-        android:text="@string/add_task_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageView
-        android:id="@+id/task_image_view"
-        android:layout_width="187dp"
-        android:layout_height="175dp"
-        android:layout_marginBottom="228dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <Button
-        android:id="@+id/img_btn"
+        android:id="@+id/next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:text="Button"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:padding="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.451"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/previous_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="50dp"-->
+<!--        android:layout_marginBottom="50dp"-->
+<!--        android:padding="10sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />-->
+
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_image_view" />
+        tools:layout_editor_absoluteY="33dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/todo_description_edit_text"-->
+            <!--                android:layout_width="271dp"-->
+            <!--                android:layout_height="48dp"-->
+            <!--                android:layout_marginTop="90dp"-->
+            <!--                android:ems="10"-->
+            <!--                android:hint="@string/todo_description_hint"-->
+            <!--                android:minHeight="48dp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+            <EditText
+                android:id="@+id/todo_description_edit_text"
+                android:layout_width="302dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/enter_description"
+                android:inputType="textMultiLine"
+                android:maxLength="150"
+                android:maxLines="3"
+                android:minHeight="48dp"
+                app:layout_constraintBottom_toTopOf="@+id/img_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.513"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.222" />
+
+            <ImageView
+                android:id="@+id/task_image_view"
+                android:layout_width="200sp"
+                android:layout_height="300sp"
+                android:layout_marginBottom="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <Button
+                android:id="@+id/img_btn"
+                android:layout_width="72dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="144dp"
+                app:icon="@drawable/ic_baseline_camera_alt_24"
+                app:iconGravity="textEnd"
+                app:iconPadding="0sp"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/add_task"
+                android:layout_width="111dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="156dp"
+                android:layout_marginTop="95dp"
+                android:text="@string/add_task_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/task_image_view"
+                app:layout_constraintVertical_bias="0.192" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/creation_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="68dp"
+                android:layout_marginTop="176dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="creation date" />
+
+            <EditText
+                android:id="@+id/todo_title_edit_text"
+                android:layout_width="271dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="244dp"
+                android:ems="10"
+                android:hint="@string/todo_title_hint"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/task_date_btn"
+                android:layout_width="207dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="380dp"
+                android:text="@string/task_date"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ViewFlipper>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

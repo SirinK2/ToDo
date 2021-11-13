@@ -17,9 +17,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.todo.DatePickerFragment
 import com.example.todo.R
@@ -27,7 +24,7 @@ import com.example.todo.ToDoListFragment.KEY_ID
 import com.example.todo.ToDoListFragment.ToDoListFragment
 import com.example.todo.database.Task
 import android.text.format.DateFormat
-import android.widget.ImageView
+import android.widget.*
 import androidx.core.content.FileProvider
 import com.example.todo.getScaledBitmap
 import java.io.File
@@ -35,17 +32,19 @@ import java.util.*
 const val REQUEST_CODE = 9
 const val DATE_KEY = "taskDate"
 private const val REQUEST_PHOTO = 2
-class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
+class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack, View.OnClickListener {
     val dateFormat = "MMM dd, yyyy"
 
     private lateinit var titleEt : EditText
     private lateinit var descriptionEt: EditText
     private lateinit var taskDateBtn:Button
     private lateinit var creationDateTv: TextView
-    private lateinit var isCompletedTv : TextView
     private lateinit var addNewTask: Button
     private var imgView : ImageView? = null
     private lateinit var imgBtn : Button
+    private lateinit var viewFlipper: ViewFlipper
+    private lateinit var nextBtn: ImageView
+//    private lateinit var prevBtn: ImageView
 
 
     private lateinit var task: Task
@@ -62,7 +61,6 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
             imgView?.setImageDrawable(null)
         }
     }
-
     override fun onDetach() {
         super.onDetach()
         requireActivity().revokeUriPermission(photoUri,Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
@@ -90,24 +88,47 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     ): View? {
        val view =  inflater.inflate(R.layout.fragment_to_do, container, false)
 
-
+        viewFlipper = view.findViewById(R.id.view_flipper)
         titleEt = view.findViewById(R.id.todo_title_edit_text)
         descriptionEt = view.findViewById(R.id.todo_description_edit_text)
         taskDateBtn = view.findViewById(R.id.task_date_btn)
         creationDateTv = view.findViewById(R.id.creation_date_tv)
-        isCompletedTv = view.findViewById(R.id.is_completed_tv)
         addNewTask = view.findViewById(R.id.add_task)
         imgView= view.findViewById(R.id.task_image_view)
         imgBtn = view.findViewById(R.id.img_btn)
+        nextBtn = view.findViewById(R.id.next_btn)
+//        prevBtn = view.findViewById(R.id.previous_btn)
 
         creationDateTv.text = DateFormat.format(dateFormat,task.createDate)
 
-
-
+        nextBtn.setOnClickListener(this)
+//        prevBtn.setOnClickListener(this)
 
         return view
 
     }
+
+    override fun onClick(v: View?) {
+
+
+
+        if (v == nextBtn){
+
+                viewFlipper.showNext()
+
+
+
+        }
+//        else if (v == prevBtn){
+//            if (viewFlipper == index) {
+//                viewFlipper.showPrevious()
+//            }
+//
+//        }
+
+    }
+
+
 
 
 
@@ -117,7 +138,7 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
     override fun onStart() {
         super.onStart()
 
-//
+
         imgBtn.apply {
             val packageManager: PackageManager = requireActivity().packageManager
             val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -157,23 +178,27 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
         addNewTask.setOnClickListener {
 
 
-            toDoViewModel.addTask(task)
+                    toDoViewModel.addTask(task)
 
-            val fragment = ToDoListFragment()
+                    val fragment = ToDoListFragment()
 
 
-            activity?.let {
-                it.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container,fragment)
-                    .addToBackStack(null)
-                    .commit()
-            }
+                    activity?.let {
+                        it.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .addToBackStack(null)
+                            .commit()
+                    }
+
+
+
 
         }
 
 
-        var textWatcher = object : TextWatcher{
+
+        val textWatcher = object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
                 task.title = s.toString()
@@ -195,7 +220,7 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
 
         }
 
-        var textWatcher1 = object : TextWatcher{
+        val textWatcher1 = object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 task.description = s.toString()
             }
@@ -233,6 +258,8 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
         }
 
 
+
+
     }
 
 
@@ -258,7 +285,6 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
                     photoFile = toDoViewModel.getPhotoFile(task)
                     photoUri = FileProvider.getUriForFile(requireContext(), "com.example.todo", photoFile)
 
-                    //add completed task
 
 
                     updatePhotoView()
@@ -296,6 +322,8 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack {
 
         }
     }
+
+
 
 
 }
