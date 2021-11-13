@@ -29,8 +29,8 @@ class ToDoListFragment : Fragment() {
     private lateinit var toDoBottomSheetFragment: BottomSheetDialogFragment
 
 
-
     private val toDoListViewModel by lazy { ViewModelProvider(this).get(ToDoListViewModel::class.java)}
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -38,6 +38,7 @@ class ToDoListFragment : Fragment() {
         inflater.inflate(R.menu.task_menu,menu)
 
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +51,17 @@ class ToDoListFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
+
             R.id.newtask -> {
 
-                    val fragment = ToDoFragment()
+                val task = Task()
+                toDoListViewModel.addTask(task)
+
+                val args = Bundle()
+                args.putSerializable(KEY_ID,task.id)
+
+                val fragment = ToDoFragment()
+                fragment.arguments = args
 
                     activity?.let {
                         it.supportFragmentManager
@@ -98,9 +107,7 @@ class ToDoListFragment : Fragment() {
         toDoListViewModel.liveDataTasks.observe(
             viewLifecycleOwner, Observer {
 
-
                 updateUI(it)
-
 
                 tasks = it
             }
@@ -216,7 +223,7 @@ class ToDoListFragment : Fragment() {
 
             taskCountDown.text = day
 
-            if(days.toInt() <= 0 && !isCompletedCbItemView.isChecked){
+            if(days.toInt() <= 0 ){
 
                 isCompletedCbItemView.isEnabled = false
 

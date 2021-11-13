@@ -9,7 +9,7 @@ data class Task(@PrimaryKey val id: UUID = UUID.randomUUID(),
                 var taskDate: Date? = null,
                 var createDate: Date = Date(),
                 var description: String = "",
-                var isCompleted: Boolean = false,
+                var isCompleted: Boolean = false
 
                 ){
     val photoFileName

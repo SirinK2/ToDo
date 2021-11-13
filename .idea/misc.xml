@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.2984375" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2984375" />
         <entry key="app/src/main/res/drawable/rounded_dialog.xml" value="0.2984375" />
+        <entry key="app/src/main/res/layout-v28/todo_itemview.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_bottom_sheet.xml" value="0.3166146044903773" />
         <entry key="app/src/main/res/layout/fragment_to_do.xml" value="0.2767255210735501" />

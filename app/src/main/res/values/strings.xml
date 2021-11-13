@@ -14,4 +14,6 @@
     <string name="from_tv">From</string>
     <string name="start_btn">Start</string>
     <string name="enter_description">Enter description</string>
+    <string name="to_do_title">To Do Title</string>
+    <string name="due_date">Due date</string>
 </resources>

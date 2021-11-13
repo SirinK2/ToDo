@@ -8,11 +8,12 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_width="371dp"
+        android:layout_height="84dp"
         android:layout_marginHorizontal="20sp"
         android:layout_marginVertical="10sp"
-        app:cardBackgroundColor="#F3D7D7"
+        android:outlineAmbientShadowColor="@color/gray"
+        app:cardBackgroundColor="#EAE1E1"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:padding="8sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_edit_24" />
@@ -50,9 +52,10 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-thin"
-                android:text="To Do Title"
+                android:text="@string/to_do_title"
                 android:textColor="#0E0E0E"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="44dp"
-                android:text="Due date"
+                android:text="@string/due_date"
                 android:textColor="#2B2929"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -73,6 +76,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="4dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="17 days" />

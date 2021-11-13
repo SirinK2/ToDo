@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/title_tv_botton_sheet"
-        android:layout_width="wrap_content"
+        android:layout_width="300sp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="56dp"
@@ -42,11 +42,11 @@
         android:id="@+id/timer_btn_bottom_sheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="272dp"
+        android:layout_marginTop="264dp"
         android:text="@string/start_btn"
         android:textColor="#040303"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.795"
+        app:layout_constraintHorizontal_bias="0.16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,13 +54,13 @@
         android:id="@+id/timer1_tv_bottom_sheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="224dp"
         android:fontFamily="sans-serif-black"
         android:text="00:00"
         android:textColor="#676363"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.754"
+        app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,10 +68,10 @@
         android:id="@+id/image_view_bottom_sheet"
         android:layout_width="100sp"
         android:layout_height="120sp"
-        android:layout_marginBottom="408dp"
+        android:layout_marginBottom="404dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintHorizontal_bias="0.81"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 

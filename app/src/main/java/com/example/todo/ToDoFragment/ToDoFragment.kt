@@ -44,7 +44,7 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack, View.OnClickLi
     private lateinit var imgBtn : Button
     private lateinit var viewFlipper: ViewFlipper
     private lateinit var nextBtn: ImageView
-//    private lateinit var prevBtn: ImageView
+    private lateinit var prevBtn: ImageView
 
 
     private lateinit var task: Task
@@ -97,12 +97,12 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack, View.OnClickLi
         imgView= view.findViewById(R.id.task_image_view)
         imgBtn = view.findViewById(R.id.img_btn)
         nextBtn = view.findViewById(R.id.next_btn)
-//        prevBtn = view.findViewById(R.id.previous_btn)
+        prevBtn = view.findViewById(R.id.previous_btn)
 
         creationDateTv.text = DateFormat.format(dateFormat,task.createDate)
 
         nextBtn.setOnClickListener(this)
-//        prevBtn.setOnClickListener(this)
+        prevBtn.setOnClickListener(this)
 
         return view
 
@@ -116,15 +116,12 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack, View.OnClickLi
 
                 viewFlipper.showNext()
 
+        }
+        else if (v == prevBtn){
 
+                viewFlipper.showPrevious()
 
         }
-//        else if (v == prevBtn){
-//            if (viewFlipper == index) {
-//                viewFlipper.showPrevious()
-//            }
-//
-//        }
 
     }
 
@@ -177,23 +174,23 @@ class ToDoFragment : Fragment(), DatePickerFragment.DateCallBack, View.OnClickLi
 
         addNewTask.setOnClickListener {
 
+            if (task.title.isNotEmpty()){
 
-                    toDoViewModel.addTask(task)
+                toDoViewModel.updateTask(task)
 
-                    val fragment = ToDoListFragment()
-
-
-                    activity?.let {
-                        it.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, fragment)
-                            .addToBackStack(null)
-                            .commit()
-                    }
+                val fragment = ToDoListFragment()
 
 
+                activity?.let {
+                    it.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
 
 
+            }
         }
 
 
