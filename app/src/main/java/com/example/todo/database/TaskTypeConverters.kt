@@ -1,6 +1,6 @@
 package com.example.todo.database
 
-import android.media.Image
+
 import androidx.room.TypeConverter
 import java.util.*
 
@@ -29,6 +29,5 @@ class TaskTypeConverters {
         return UUID.fromString(id)
 
     }
-
 
 }

@@ -112,14 +112,14 @@ class ToDoBottomSheetFragment: BottomSheetDialogFragment() {
 
 
 
-        override fun onStart() {
-            super.onStart()
+    override fun onStart() {
+        super.onStart()
 
-            val sheetContainer = requireView().parent as? ViewGroup ?: return
-            sheetContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+        val sheetContainer = requireView().parent as? ViewGroup ?: return
+        sheetContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
 
 
-        }
     }
+}
 
 

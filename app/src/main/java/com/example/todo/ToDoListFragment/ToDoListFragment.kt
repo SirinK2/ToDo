@@ -68,14 +68,14 @@ class ToDoListFragment : Fragment() {
                 val fragment = ToDoFragment()
                 fragment.arguments = args
 
-                    activity?.let {
-                        it.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, fragment)
-                            .addToBackStack(null)
-                            .commit()
+                activity?.let {
+                    it.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit()
 
-                    }
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -112,7 +112,10 @@ class ToDoListFragment : Fragment() {
         toDoListViewModel.liveDataTasks.observe(
             viewLifecycleOwner, Observer {
 
-                updateUI(it)
+                val sortedList = it.sortedBy { tasks->
+                    tasks.taskDate
+                }
+                updateUI(sortedList)
 
                 tasks = it
             }
@@ -174,7 +177,7 @@ class ToDoListFragment : Fragment() {
 
         init {
 
-            
+
             itemView.setOnClickListener(this)
             editImageView.setOnClickListener(this)
         }
@@ -195,6 +198,11 @@ class ToDoListFragment : Fragment() {
             }
 
 
+            if (task.title.trim().isEmpty()){
+                toDoListViewModel.deleteTask(task)
+            }
+
+
             isCompletedCbItemView.setOnCheckedChangeListener { _, isChecked ->
 
 
@@ -210,7 +218,7 @@ class ToDoListFragment : Fragment() {
             val date1 = Date()
 
             val sdf = SimpleDateFormat("MMM dd, yyyy")
-                sdf.parse(sdf.format(date1))
+            sdf.parse(sdf.format(date1))
 
             val date2 = task.taskDate
 

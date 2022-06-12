@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import java.io.File
+
 import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -22,7 +23,9 @@ class TaskRepo private constructor(context: Context){
     private val taskDao = database.taskDao()
 
     private val executor = Executors.newSingleThreadExecutor()
+
     private val fileDir = context.applicationContext.filesDir
+
 
 
     fun getAllTasks(): LiveData<List<Task>> = taskDao.getAllTasks()
@@ -49,7 +52,9 @@ class TaskRepo private constructor(context: Context){
         }
     }
 
+
     fun getPhotoFile(task: Task): File = File(fileDir,task.photoFileName)
+
 
 
 
